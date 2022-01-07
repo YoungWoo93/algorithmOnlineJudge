@@ -18,7 +18,7 @@ using namespace std;
 
 void main()
 {
-	cout << "hi" << endl;
+	cout << "hasdasi" << endl;
 }
 
 #endif
