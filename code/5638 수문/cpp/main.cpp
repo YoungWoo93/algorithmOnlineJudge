@@ -18,7 +18,7 @@ using namespace std;
 
 void main()
 {
-	cout << "hasdasi" << endl;
+	cout << "hassddasi" << endl;
 }
 
 #endif
