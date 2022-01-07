@@ -124,11 +124,11 @@ deque<gate> merge(deque<gate>& first, deque<gate>& second)
 
 int main()
 {
-	auto g = inputGates();
-	auto table = getDPtable(g);
-	auto c = inputCase();
+	auto gates = inputGates();
+	auto table = getDPtable(gates);
+	auto cases = inputCase();
 
-	for (int i=0; i<c.size(); i++)
+	for (int i=0; i< cases.size(); i++)
 	{
 		for (int j = 0; j < table.size() + 1; j++)
 		{
@@ -138,7 +138,7 @@ int main()
 				break;
 			}
 
-			if (c[i].flux <= table[j].flux * c[i].cost)
+			if (cases[i].flux <= table[j].flux * cases[i].cost)
 			{
 				cout << "Case " << i + 1 << ": " << table[j].cost << endl;
 				break;
