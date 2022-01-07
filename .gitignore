@@ -361,3 +361,15 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# costom folders
+**/[Dd]bug
+**/[Rr]elease
+**/x64
+
+# costom files
+*.sln
+**/*.vcxproj
+**/*.vcxproj.*
+**/*.i
+**/*.obj
