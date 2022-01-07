@@ -369,6 +369,8 @@ FodyWeavers.xsd
 
 # costom files
 *.sln
+*.vcxproj
+*.vcxproj.*
 **/*.vcxproj
 **/*.vcxproj.*
 **/*.i
