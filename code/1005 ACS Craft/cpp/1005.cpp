@@ -7,7 +7,7 @@
 /// https://www.acmicpc.net/problem/1005
 /// 
 /// solution
-/// 
+/// https://dev-game-standalone.tistory.com/6
 /// 
 
 
