@@ -28,7 +28,7 @@ vector<int> getPrimeNums(int size = 123456 * 2)
 			arr[i] = false;
 	};
 	vector<bool> eratos(size+1, true);
-	eratos[0] = false;
+	eratos[0] = eratos[1] = false;
 
 
 	for (int i = 2; i < size + 1; i++)
