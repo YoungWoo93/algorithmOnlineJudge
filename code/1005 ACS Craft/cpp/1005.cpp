@@ -7,7 +7,7 @@
 /// https://www.acmicpc.net/problem/1005
 /// 
 /// solution
-/// https://dev-game-standalone.tistory.com/6
+/// https://dev-game-standalone.tistory.com/entry/BOJ-1005%EB%B2%88-ACM-Craft
 /// 
 
 
