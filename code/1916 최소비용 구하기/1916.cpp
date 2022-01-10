@@ -1,7 +1,13 @@
 #include <problem.h>
 
 #ifdef _1916_
-
+/// 
+/// problem
+/// https://www.acmicpc.net/problem/1916
+/// 
+/// solution
+/// 
+/// 
 
 #include <iostream>
 #include <vector>
