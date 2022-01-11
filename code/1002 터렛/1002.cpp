@@ -7,7 +7,7 @@
 /// https://www.acmicpc.net/problem/1002
 /// 
 /// solution
-/// 
+/// https://dev-game-standalone.tistory.com/entry/BOJ-1002%EB%B2%88-%ED%84%B0%EB%A0%9B
 /// 
 
 #include <iostream>
@@ -43,19 +43,23 @@ int main()
 			else
 				cout << 0 << endl;
 		}
-		else if (dist == dist1 + dist2 || dist == abs(dist1 - dist2))
-		{
-			cout << 1 << endl;
-		}
-		else if (dist < dist1 + dist2)
-		{
-			if ((dist1 > dist2 ? dist1 : dist2) < (dist1 > dist2 ? dist2 : dist1) + dist)
-				cout << 2 << endl;
-			else
-				cout << 0 << endl;
-		}
 		else
-			cout << 0 << endl;
+		{
+			int big = dist1 > dist2 ? dist1 : dist2;
+			int small = dist1 > dist2 ? dist2 : dist1;
+
+			if (big > dist + small)
+				cout << 0 << endl;
+			else if (dist > big + small)
+				cout << 0 << endl;
+			else if (dist + small == big)
+				cout << 1 << endl;
+			else if (dist == big + small)
+				cout << 1 << endl;
+			else
+				cout << 2 << endl;
+		}
+
 	}
 
 	return 0;
