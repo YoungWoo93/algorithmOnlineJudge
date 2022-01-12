@@ -6,7 +6,7 @@
 /// https://www.acmicpc.net/problem/1916
 /// 
 /// solution
-/// 
+/// https://dev-game-standalone.tistory.com/entry/BOJ-1916-%EC%B5%9C%EC%86%8C%EB%B9%84%EC%9A%A9-%EA%B5%AC%ED%95%98%EA%B8%B0
 /// 
 
 #include <iostream>
