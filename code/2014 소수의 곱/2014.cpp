@@ -7,7 +7,7 @@
 /// https://www.acmicpc.net/problem/2014
 /// 
 /// solution
-/// 
+/// https://dev-game-standalone.tistory.com/entry/BOJ-1753%EB%B2%88-%EC%B5%9C%EB%8B%A8%EA%B2%BD%EB%A1%9C
 /// 
 
 #include <iostream>
