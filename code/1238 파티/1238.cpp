@@ -60,7 +60,7 @@ void dijkstra(vector<town>& towns, int startTown)
 {
 	set<pair<int, int>> pq;
 
-	for (auto index : towns[startTown].wayCost)//int i = 1; i < towns[startTown].wayCost.size(); i++)
+	for (auto index : towns[startTown].wayCost)
 	{
 		pq.insert(pair<int, int>(index.second, index.first));
 	}
@@ -82,10 +82,6 @@ void dijkstra(vector<town>& towns, int startTown)
 					pq.insert(pair<int, int>(index.second + temp.first, index.first));
 			}
 		}
-
-		
-		//if (towns[temp->second].memo[startTown] <= temp->first)
-		//
 	}
 }
 
@@ -108,8 +104,8 @@ int main()
 	int max = 0;
 	for (int i = 0; i < towns.size(); i++)
 	{
-		if (towns[i].memo[targetTown] + towns[targetTown].memo[i] > max)
-			max = towns[i].memo[targetTown] + towns[targetTown].memo[i];
+		if (towns[i].cost[targetTown] + towns[i].memo[targetTown] > max)
+			max = towns[i].cost[targetTown] + towns[i].memo[targetTown];
 	}
 
 	cout << max << endl;
