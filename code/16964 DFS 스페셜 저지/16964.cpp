@@ -69,9 +69,6 @@ vector<node> input(queue<int>& answer)
 		answer.push(temp);
 	}
 
-
-
-
 	for (auto item : pathList)
 	{
 		pair<pair<int, int>, int> tempPair;
