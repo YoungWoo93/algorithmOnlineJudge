@@ -75,19 +75,19 @@ long long int sumFunction(vector<long long int>& tree, int start, int end, int c
 	return sumFunction(tree, start, mid, cur * 2, sumRangeStart, sumRangeEnd) + sumFunction(tree, mid + 1, end, cur * 2 + 1, sumRangeStart, sumRangeEnd);
 }
 
-void changeFunction(vector<long long int>&tree, int start, int end, int cur, int key, long long int offset)
+void changeFunction(vector<long long int>&tree, int start, int end, int cur, int changeIndex, long long int offset)
 {
-	if (key < start || end < key)
+	if (changeIndex < start || end < changeIndex)
 		return;
 
 	tree[cur] += offset;
 
-	if (key == cur)
+	if (changeIndex == cur)
 		return;
 
 	int mid = (start + end) / 2;
-	changeFunction(tree, start, mid, cur * 2, key, offset);
-	changeFunction(tree, mid + 1, end, cur * 2 + 1, key, offset);
+	changeFunction(tree, start, mid, cur * 2, changeIndex, offset);
+	changeFunction(tree, mid + 1, end, cur * 2 + 1, changeIndex, offset);
 }
 
 int main()
@@ -103,10 +103,19 @@ int main()
 		auto cmd = cmdList.front();
 
 		if (cmd.type == 1)
-			changeFunction(tree, startIndex, endIndex, 1, startIndex + cmd.value1 - 1, cmd.value2 - tree[startIndex + cmd.value1 - 1]);
-		else if (cmd.type == 2)
-			cout << sumFunction(tree, startIndex, endIndex, 1, startIndex + cmd.value1 - 1, startIndex + cmd.value2 - 1) << endl;
+		{
+			int changeIndex = startIndex + cmd.value1 - 1;
+			int offset = cmd.value2 - tree[changeIndex];
 
+			changeFunction(tree, startIndex, endIndex, 1, changeIndex, offset);
+		}
+		else if (cmd.type == 2)
+		{
+			int sumStart = startIndex + cmd.value1 - 1;
+			int sumEnd = startIndex + cmd.value2 - 1;
+
+			cout << sumFunction(tree, startIndex, endIndex, 1, sumStart, sumEnd) << endl;
+		}
 		cmdList.pop();
 	}
 
