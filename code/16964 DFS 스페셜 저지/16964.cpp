@@ -7,7 +7,7 @@
 /// https://www.acmicpc.net/problem/16964
 /// 
 /// solution
-/// 
+/// https://dev-game-standalone.tistory.com/entry/BOJ-16964-DFS-%EC%8A%A4%ED%8E%98%EC%85%9C-%EC%A0%80%EC%A7%80?category=530553
 /// 
 
 #include <iostream>
