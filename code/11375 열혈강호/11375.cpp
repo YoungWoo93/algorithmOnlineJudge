@@ -2,7 +2,7 @@
 
 #ifdef _11375_
 
-/// 
+/// 130
 /// problem
 /// https://www.acmicpc.net/problem/11375
 /// 
