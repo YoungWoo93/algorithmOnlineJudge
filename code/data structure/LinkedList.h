@@ -68,7 +68,7 @@ namespace dataStructures
 
 		V at(unsigned int index) {
 			try {
-				indexCheck(index);
+				eraseIndexCheck(index);
 			}
 			catch (const std::exception& e) {
 				cout << "at " << e.what() << endl;
@@ -116,8 +116,8 @@ namespace dataStructures
 		void connectLink(int startIndex, int endIndex)
 		{
 			try {
-				indexCheck(startIndex);
-				indexCheck(endIndex);
+				eraseIndexCheck(startIndex);
+				eraseIndexCheck(endIndex);
 			}
 			catch (const std::exception& e) {
 				cout << "connectLink " << e.what() << endl;
@@ -152,8 +152,8 @@ namespace dataStructures
 		void disconnectLink(int startIndex, int endIndex)
 		{
 			try {
-				indexCheck(startIndex);
-				indexCheck(endIndex);
+				eraseIndexCheck(startIndex);
+				eraseIndexCheck(endIndex);
 			}
 			catch (const std::exception& e) {
 				cout << "disconnectLink " << e.what() << endl;
@@ -173,7 +173,7 @@ namespace dataStructures
 		void disconnectNextLinkAll(int index)
 		{
 			try {
-				indexCheck(index);
+				eraseIndexCheck(index);
 			}
 			catch (const std::exception& e) {
 				cout << "disconnectLink " << e.what() << endl;
@@ -189,7 +189,7 @@ namespace dataStructures
 		void disconnectPrevLinkAll(int index)
 		{
 			try {
-				indexCheck(index);
+				eraseIndexCheck(index);
 			}
 			catch (const std::exception& e) {
 				cout << "disconnectLink " << e.what() << endl;
@@ -206,7 +206,7 @@ namespace dataStructures
 		void disconnectLinkAll(int index)
 		{
 			try {
-				indexCheck(index);
+				eraseIndexCheck(index);
 			}
 			catch (const std::exception& e) {
 				cout << "disconnectLink " << e.what() << endl;
@@ -273,17 +273,16 @@ namespace dataStructures
 
 		bool insert(LinkedList<V> &list, int index)
 		{
-			
 			try {
+				insertIndexCheck(index);
 				typeCheck(list);
-				indexCheck(index);
 			}
 			catch (const std::exception& e) {
 				cout << "insert " << e.what() << endl;
 				return false;
 			}
 
-			if (index == size() - 1)
+			if (index == size())
 			{
 				add(list);
 				return true;
@@ -314,7 +313,7 @@ namespace dataStructures
 		bool insert(V value, int index)
 		{
 			try {
-				indexCheck(index);
+				insertIndexCheck(index);
 			}
 			catch (const std::exception& e) {
 				cout << "insert " << e.what() << endl;
@@ -323,7 +322,7 @@ namespace dataStructures
 
 			node<V>* newNode = new node<V>(value);
 
-			if (index == size() - 1)
+			if (index == size())
 			{
 				add(newNode);
 				return true;
@@ -339,7 +338,7 @@ namespace dataStructures
 			}
 			else
 			{
-				disconnectLink(itemList[index - 1], itemList[index]);
+				disconnectLink(index - 1, index);
 				connectLink(itemList[index - 1], newNode);
 				connectLink(newNode, itemList[index]);
 			}
@@ -349,48 +348,13 @@ namespace dataStructures
 			return true;
 		}
 
-		bool erase(unsigned int index)
-		{
-			try {
-				indexCheck(index);
-			}
-			catch (const std::exception& e) {
-				cout << "erase " << e.what() << endl;
-				return false;
-			}
-
-			auto temp = itemList[index];
-			if (index == 0)
-			{
-				disconnectLink(index, index + 1);
-				head = itemList[index + 1];
-			}
-			else if (index == size() - 1)
-			{
-				disconnectLink(index - 1, index);
-				tail = itemList[index - 1];
-			}
-			else
-			{
-				disconnectLink(index, index + 1);
-				disconnectLink(index - 1, index);
-				connectLink(index - 1, index + 1);
-			}
-
-			itemList.erase(itemList.begin() + index);
-
-
-			delete temp;
-
-			return true;
-		}
 		bool erase(V value, bool (*compare)(V))
 		{
 			int index = this->find(value, compare);
 			if (index == -1)
 				return false;
 
-			erase(index);
+			eraseIndex(index);
 
 			return true;
 		}
@@ -400,15 +364,15 @@ namespace dataStructures
 			if (index == -1)
 				return false;
 
-			erase(index);
+			eraseIndex(index);
 
 			return true;
 		}
 		bool erase(int startIndex, int endIndex)
 		{
 			try {
-				indexCheck(startIndex);
-				indexCheck(endIndex);
+				eraseIndexCheck(startIndex);
+				eraseIndexCheck(endIndex);
 			}
 			catch (const std::exception& e) {
 				cout << "erase " << e.what() << endl;
@@ -441,6 +405,46 @@ namespace dataStructures
 			return true;
 		}
 
+		bool eraseIndex(unsigned int index)
+		{
+			try {
+				eraseIndexCheck(index);
+			}
+			catch (const std::exception& e) {
+				cout << "erase " << e.what() << endl;
+				return false;
+			}
+
+			auto temp = itemList[index];
+
+			if (size() != 1)
+			{
+				if (index == 0)
+				{
+					disconnectLink(index, index + 1);
+					head = itemList[index + 1];
+				}
+				else if (index == size() - 1)
+				{
+					disconnectLink(index - 1, index);
+					tail = itemList[index - 1];
+				}
+				else
+				{
+					disconnectLink(index, index + 1);
+					disconnectLink(index - 1, index);
+					connectLink(index - 1, index + 1);
+				}
+			}
+
+			itemList.erase(itemList.begin() + index);
+
+
+			delete temp;
+
+			return true;
+		}
+
 		bool eraseAll(V value)
 		{
 			int cmp = size();
@@ -448,12 +452,11 @@ namespace dataStructures
 			for (int i = 0; i < size(); i++)
 			{
 				if (*itemList[i] == value)
-					erase(i--);
+					eraseIndex(i--);
 			}
 
 			return cmp == size();
 		}
-
 		bool eraseAll(V value, bool (*compare)(V cmpValue, V itemListValue))
 		{
 			int cmp = size();
@@ -461,12 +464,11 @@ namespace dataStructures
 			for (int i = 0; i < size(); i++)
 			{
 				if (compare(*itemList[i].value, value))
-					erase(i--);
+					eraseIndex(i--);
 			}
 
 			return cmp == size();
 		}
-
 		bool eraseAll(node<V> node)
 		{
 			int cmp = size();
@@ -474,7 +476,7 @@ namespace dataStructures
 				for (int i = 0; i < size(); i++)
 				{
 					if (*itemList[i] == node)
-						erase(i--);
+						eraseIndex(i--);
 				}
 
 			return cmp == size();
@@ -516,7 +518,6 @@ namespace dataStructures
 
 			return ret;
 		}
-	
 		node<V> max()
 		{
 			if (itemList.empty())
@@ -532,7 +533,6 @@ namespace dataStructures
 
 			return *itemList[index];
 		}
-
 		node<V> min()
 		{
 			if (itemList.empty())
@@ -548,20 +548,22 @@ namespace dataStructures
 
 			return *itemList[index];
 		}
-				/*
-				bool			operator=(LinkedList list);
-				bool			operator=(vector<V> list);
+				
 
-				bool			operator==(LinkedList list);
-				bool			operator==(vector<V> list);
-				bool			operator!=(LinkedList list);
-				bool			operator!=(vector<V> list);
-
-				LinkedList		operator+(LinkedList list);
-				LinkedList		operator+(vector<V> &list);
-				LinkedList		operator+(V value);
-
-				LinkedList		operator-(V value);
+		/*
+		bool			operator=(LinkedList list);
+		bool			operator=(vector<V> list);
+		
+		bool			operator==(LinkedList list);
+		bool			operator==(vector<V> list);
+		bool			operator!=(LinkedList list);
+		bool			operator!=(vector<V> list);
+		
+		LinkedList		operator+(LinkedList list);
+		LinkedList		operator+(vector<V> &list);
+		LinkedList		operator+(V value);
+		
+		LinkedList		operator-(V value);
 				*/
 
 		LinkedList& operator+=(LinkedList& list)
@@ -570,32 +572,28 @@ namespace dataStructures
 
 			return *this;
 		}
-
 		LinkedList& operator+=(vector<V>& list)
 		{
 			add(list);
 
 			return *this;
 		}
-
 		LinkedList& operator+=(V value)
 		{
 			add(value);
 
 			return *this;
 		}
-
 		LinkedList& operator-=(V value)
 		{
 			erase(find(value));
 
 			return *this;
 		}
-
 		node<V> operator[](int index)
 		{
 			try {
-				indexCheck(index);
+				eraseIndexCheck(index);
 			}
 			catch (const std::exception& e) {
 				cout << "[] " << e.what() << endl;
@@ -622,7 +620,17 @@ namespace dataStructures
 
 			return true;
 		}
-		bool indexCheck(int index) 
+		bool insertIndexCheck(int index) 
+		{
+			if (index < 0 || size() < index)
+			{
+				throw out_of_range("index out of range\n");
+				return false;
+			}
+
+			return true;
+		}
+		bool eraseIndexCheck(int index)
 		{
 			if (index < 0 || size() <= index)
 			{
@@ -632,7 +640,6 @@ namespace dataStructures
 
 			return true;
 		}
-
 	private:
 
 
@@ -640,7 +647,7 @@ namespace dataStructures
 	public:
 		bool				linearType;
 		int					linkType;
-		string name;
+
 		node<V>* head;
 		node<V>* tail;
 		vector<node<V>*>	itemList;
