@@ -2,9 +2,7 @@
 
 #include <vector>
 #include <iostream>
-#include <algorithm>
 #include <string>
-#include <format>
 
 using namespace std;
 
@@ -20,16 +18,28 @@ namespace dataStructures
 		V value;
 		vector<pair<node*, int>> prev;
 		vector<pair<node*, int>> next;
+
+		node(){};
 		node(V initValue) : value(initValue) {};
 		~node() {
 			if (std::is_pointer<V>::value)
-			{
-				//V*& temp = ;
 				delete (V*&)value;
-			}
 		};
-		bool operator==(node<V> cmp) {
+
+		bool operator==(node<V> &cmp) {
 			return value == cmp.value;
+		}
+
+		bool operator==(V cmp) {
+			return value == cmp;
+		}
+
+		node<V> operator=(node<V> &other) {
+			node<V> ret(other.value);
+			ret.prev.assign(other.prev.begin(), other.prev.end());
+			ret.next.assign(other.next.begin(), other.next.end());
+
+			return  ret;
 		}
 	};
 
@@ -166,7 +176,7 @@ namespace dataStructures
 				indexCheck(index);
 			}
 			catch (const std::exception& e) {
-				cout << "disconnectLink " << e << endl;
+				cout << "disconnectLink " << e.what() << endl;
 				return;
 			}
 
@@ -182,7 +192,7 @@ namespace dataStructures
 				indexCheck(index);
 			}
 			catch (const std::exception& e) {
-				cout << "disconnectLink " << e << endl;
+				cout << "disconnectLink " << e.what() << endl;
 				return;
 			}
 
@@ -212,19 +222,17 @@ namespace dataStructures
 				typeCheck(list);
 			}
 			catch (const std::exception& e) {
-				cout << "disconnectLink " << e.what() << endl;
+				cout << "add " << e.what() << endl;
 				return false;
 			}
 
-			auto temp = list.getArray();
-			/// <summary>
-			/// 
-			/// 전체 탐색해서 하드카피하도록 수정필요
-			/// 
-			/// </summary>
-			/// <param name="list"></param>
-			/// <returns></returns>
-			add(temp);
+			disconnectNextLinkAll(list.tail);
+			connectLink(this->tail, list.head);
+			connectLink(this->tail, list.head);
+
+			this->tail = list.tail;
+			this->itemList.insert(this->itemList.end(), list.itemList.begin(), list.itemList.end());
+			list.itemList.clear();
 
 			return true;
 		}
@@ -309,7 +317,7 @@ namespace dataStructures
 				indexCheck(index);
 			}
 			catch (const std::exception& e) {
-				cout << "insert " << e << endl;
+				cout << "insert " << e.what() << endl;
 				return false;
 			}
 
@@ -433,26 +441,114 @@ namespace dataStructures
 			return true;
 		}
 
+		bool eraseAll(V value)
+		{
+			int cmp = size();
 
-		/// <summary>
-		/// 여기까지 함
-		/// </summary>
-		/// <param name="index"></param>
-		/// <returns></returns>
+			for (int i = 0; i < size(); i++)
+			{
+				if (*itemList[i] == value)
+					erase(i--);
+			}
 
+			return cmp == size();
+		}
 
+		bool eraseAll(V value, bool (*compare)(V cmpValue, V itemListValue))
+		{
+			int cmp = size();
 
+			for (int i = 0; i < size(); i++)
+			{
+				if (compare(*itemList[i].value, value))
+					erase(i--);
+			}
+
+			return cmp == size();
+		}
+
+		bool eraseAll(node<V> node)
+		{
+			int cmp = size();
+
+				for (int i = 0; i < size(); i++)
+				{
+					if (*itemList[i] == node)
+						erase(i--);
+				}
+
+			return cmp == size();
+		}
+
+		int find(V value)
+		{
+			for (int i = 0; i < size(); i++)
+			{
+				if (*itemList[i] == value)
+					return i;
+			}
+
+			return -1;
+		}
+
+		//int find(V value, bool (*option)(V ...))  이상, 이하, 미만 등을 처리하기위한 option, 공부좀 더해서 구현해야할듯
+		//{
+		//	for (int i = 0; i < size(); i++)
+		//	{
+		//		if (option(itemList[i].value)
+		//			return i;
+		//	}
+		//}
+		//int find(bool (*option)(V ...));
+		//
+		//vector<int> findAll(V value, bool (*option)(V ...));
+		//vector<int> findAll(bool (*option)(V ...));
+
+		vector<int> findAll(V value)
+		{
+			vector<int> ret;
+
+			for (int i = 0; i < size(); i++)
+			{
+				if (*itemList[i] == value)
+					ret.push_back(i);
+			}
+
+			return ret;
+		}
+	
+		node<V> max()
+		{
+			if (itemList.empty())
+				return *head;
+
+			int index = 0;
+
+			for (int i = 1; i < size(); i++)
+			{
+				if (itemList[i]->value > itemList[index]->value)
+					index = i;
+			}
+
+			return *itemList[index];
+		}
+
+		node<V> min()
+		{
+			if (itemList.empty())
+				return *head;
+
+			int index = 0;
+
+			for (int i = 1; i < size(); i++)
+			{
+				if (itemList[i]->value < itemList[index]->value)
+					index = i;
+			}
+
+			return *itemList[index];
+		}
 				/*
-				bool			eraseAll(V value, bool (*compare)(V) = (operator==));
-				bool			eraseAll (bool (*option)(V ...));
-
-				int				find(V value);
-				int				find(V value, bool (*option)(V ...));
-				int				find(bool (*option)(V ...));
-				vector<int>		findAll(V value);
-				vector<int>		findAll(V value, bool (*option)(V ...));
-				vector<int>		findAll(bool (*option)(V ...));
-
 				bool			operator=(LinkedList list);
 				bool			operator=(vector<V> list);
 
@@ -466,15 +562,49 @@ namespace dataStructures
 				LinkedList		operator+(V value);
 
 				LinkedList		operator-(V value);
-
-				LinkedList&		operator+=(LinkedList list);
-				LinkedList&		operator+=(vector<V> &list);
-				LinkedList&		operator+=(V list);
-
-				LinkedList&		operator-=(V value);
-
-				V				operator[](V value);
 				*/
+
+		LinkedList& operator+=(LinkedList& list)
+		{
+			add(list);
+
+			return *this;
+		}
+
+		LinkedList& operator+=(vector<V>& list)
+		{
+			add(list);
+
+			return *this;
+		}
+
+		LinkedList& operator+=(V value)
+		{
+			add(value);
+
+			return *this;
+		}
+
+		LinkedList& operator-=(V value)
+		{
+			erase(find(value));
+
+			return *this;
+		}
+
+		node<V> operator[](int index)
+		{
+			try {
+				indexCheck(index);
+			}
+			catch (const std::exception& e) {
+				cout << "[] " << e.what() << endl;
+
+				return *itemList[size() - 1];
+			}
+
+			return *itemList[index];
+		}
 
 	protected:
 		bool typeCheck(LinkedList<V>& list) 
