@@ -8,7 +8,7 @@ using namespace std;
 
 namespace dataStructures
 {
-	//copy start
+
 #define	singly	1
 #define	doubly	2
 
@@ -571,7 +571,7 @@ namespace dataStructures
 
 				return *itemList[size() - 1];
 			}
-
+			
 			return *itemList[index];
 		}
 
@@ -628,9 +628,4 @@ namespace dataStructures
 	private:
 
 	};
-
-
-
-
-	//copy end
 }
