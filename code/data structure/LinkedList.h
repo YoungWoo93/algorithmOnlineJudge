@@ -493,19 +493,6 @@ namespace dataStructures
 			return -1;
 		}
 
-		//int find(V value, bool (*option)(V ...))  이상, 이하, 미만 등을 처리하기위한 option, 공부좀 더해서 구현해야할듯
-		//{
-		//	for (int i = 0; i < size(); i++)
-		//	{
-		//		if (option(itemList[i].value)
-		//			return i;
-		//	}
-		//}
-		//int find(bool (*option)(V ...));
-		//
-		//vector<int> findAll(V value, bool (*option)(V ...));
-		//vector<int> findAll(bool (*option)(V ...));
-
 		vector<int> findAll(V value)
 		{
 			vector<int> ret;
@@ -549,22 +536,6 @@ namespace dataStructures
 			return *itemList[index];
 		}
 				
-
-		/*
-		bool			operator=(LinkedList list);
-		bool			operator=(vector<V> list);
-		
-		bool			operator==(LinkedList list);
-		bool			operator==(vector<V> list);
-		bool			operator!=(LinkedList list);
-		bool			operator!=(vector<V> list);
-		
-		LinkedList		operator+(LinkedList list);
-		LinkedList		operator+(vector<V> &list);
-		LinkedList		operator+(V value);
-		
-		LinkedList		operator-(V value);
-				*/
 
 		LinkedList& operator+=(LinkedList& list)
 		{
@@ -640,6 +611,7 @@ namespace dataStructures
 
 			return true;
 		}
+	
 	private:
 
 
