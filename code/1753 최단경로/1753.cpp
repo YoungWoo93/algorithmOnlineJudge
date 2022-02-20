@@ -36,7 +36,7 @@ struct Node {
 	bool visit;
 };
 
-void addLink(vector<Node>& list, Link link)
+void connectLink(vector<Node>& list, Link link)
 {
 	list[link.start].linkList.push_back(link);
 }
@@ -62,7 +62,7 @@ vector<Node> input(int& startNode)
 		Link tempLink;
 		//cin >> tempLink.start >> tempLink.end >> tempLink.cost;
 		scanf("%d %d %d", &tempLink.start, &tempLink.end, &tempLink.cost);
-		addLink(nodeList, tempLink);
+		connectLink(nodeList, tempLink);
 	}
 
 	return nodeList;
