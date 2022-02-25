@@ -48,7 +48,7 @@ namespace dataStructures
 		{
 			datalist->push_back(value);
 		}
-		void push(V value, int* datalist)
+		void push(V value, V* datalist)
 		{
 			if ((_msize(datalist) / sizeof(L)) == dataCount)
 				datalist = resize((_msize(datalist) / sizeof(L)) * 2);
@@ -76,7 +76,7 @@ namespace dataStructures
 			datalist->pop_back();
 			return true;
 		}
-		bool pop(int* datalist)
+		bool pop(V* datalist)
 		{
 			if (empty())
 				return false;
@@ -102,7 +102,7 @@ namespace dataStructures
 
 			return datalist->front();
 		}
-		V front(int* datalist)
+		V front(V* datalist)
 		{
 			if (empty())
 				return NULL;
@@ -118,7 +118,7 @@ namespace dataStructures
 		{
 			return datalist->size();
 		}
-		int size(int* datalist)
+		int size(V* datalist)
 		{
 			return dataCount;
 		}

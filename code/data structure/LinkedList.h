@@ -569,7 +569,7 @@ namespace dataStructures
 			catch (const std::exception& e) {
 				cout << "[] " << e.what() << endl;
 
-				return *itemList[size() - 1];
+				return *itemList.back();
 			}
 			
 			return *itemList[index];
