@@ -51,10 +51,51 @@ namespace dataStructures
 		}
 
 	protected:
+		// use linked list
 		void push_front(V value, LinkedList<V>* datalist)
 		{
 			datalist->insert(value, 0);
 		}
+		void push_back(V value, LinkedList<V>* datalist)
+		{
+			datalist->add(value);
+		}
+		bool pop_front(LinkedList<V>* datalist)
+		{
+			if (empty())
+				return false;
+
+			datalist->eraseIndex(0);
+			return true;
+		}
+		bool pop_back(LinkedList<V>* datalist)
+		{
+			if (empty())
+				return false;
+
+			datalist->eraseIndex(datalist->size() - 1);
+			return true;
+		}
+		V front(LinkedList<V>* datalist)
+		{
+			if (empty())
+				return NULL;
+
+			return datalist->head->value;
+		}
+		V back(LinkedList<V>* datalist)
+		{
+			if (empty())
+				return NULL;
+
+			return datalist->tail->value;
+		}
+		int size(LinkedList<V>* datalist)
+		{
+			return datalist->size();
+		}
+
+		// use vector
 		void push_front(V value, vector<V>* datalist)
 		{
 			datalist->push_back(datalist->back());
@@ -63,42 +104,9 @@ namespace dataStructures
 
 			(*datalist)[0] = value;
 		}
-		void push_front(V value, V* datalist)
-		{
-			if ((_msize(datalist) / sizeof(L)) == dataCount)
-				datalist = resize((_msize(datalist) / sizeof(L)) * 2);
-
-			for (int i = size(datalist); i > 0; i--)
-				datalist[i] = datalist[i - 1];
-
-			*datalist = value;
-			dataCount++;
-		}
-
-		void push_back(V value, LinkedList<V>* datalist)
-		{
-			datalist->add(value);
-		}
 		void push_back(V value, vector<V>* datalist)
 		{
 			datalist->push_back(value);
-		}
-		void push_back(V value, V* datalist)
-		{
-			if ((_msize(datalist) / sizeof(L)) == dataCount)
-				datalist = resize((_msize(datalist) / sizeof(L)) * 2);
-
-			*(datalist + dataCount) = value;
-			dataCount++;
-		}
-
-		bool pop_front(LinkedList<V>* datalist)
-		{
-			if (empty())
-				return false;
-
-			datalist->eraseIndex(0);
-			return true;
 		}
 		bool pop_front(vector<V>* datalist)
 		{
@@ -112,6 +120,53 @@ namespace dataStructures
 
 			return true;
 		}
+		bool pop_back(vector<V>* datalist)
+		{
+			if (empty())
+				return false;
+
+			datalist->pop_back();
+			return true;
+		}
+		V front(vector<V>* datalist)
+		{
+			if (empty())
+				return NULL;
+
+			return datalist->front();
+		}
+		V back(vector<V>* datalist)
+		{
+			if (empty())
+				return NULL;
+
+			return datalist->back();
+		}
+		int size(vector<V>* datalist)
+		{
+			return datalist->size();
+		}
+
+		// use array
+		void push_front(V value, V* datalist)
+		{
+			if ((_msize(datalist) / sizeof(L)) == dataCount)
+				datalist = resize((_msize(datalist) / sizeof(L)) * 2);
+
+			for (int i = size(datalist); i > 0; i--)
+				datalist[i] = datalist[i - 1];
+
+			*datalist = value;
+			dataCount++;
+		}
+		void push_back(V value, V* datalist)
+		{
+			if ((_msize(datalist) / sizeof(L)) == dataCount)
+				datalist = resize((_msize(datalist) / sizeof(L)) * 2);
+
+			*(datalist + dataCount) = value;
+			dataCount++;
+		}
 		bool pop_front(V* datalist)
 		{
 			if (empty())
@@ -123,23 +178,6 @@ namespace dataStructures
 			dataCount--;
 			return true;
 		}
-
-		bool pop_back(LinkedList<V>* datalist)
-		{
-			if (empty())
-				return false;
-
-			datalist->eraseIndex(datalist->size() - 1);
-			return true;
-		}
-		bool pop_back(vector<V>* datalist)
-		{
-			if (empty())
-				return false;
-
-			datalist->pop_back();
-			return true;
-		}
 		bool pop_back(V* datalist)
 		{
 			if (empty())
@@ -148,21 +186,6 @@ namespace dataStructures
 			dataCount--;
 			return true;
 		}
-
-		V front(LinkedList<V>* datalist)
-		{
-			if (empty())
-				return NULL;
-
-			return datalist->head->value;
-		}
-		V front(vector<V>* datalist)
-		{
-			if (empty())
-				return NULL;
-
-			return datalist->front();
-		}
 		V front(V* datalist)
 		{
 			if (empty())
@@ -170,36 +193,12 @@ namespace dataStructures
 
 			return *(datalist);
 		}
-
-		V back(LinkedList<V>* datalist)
-		{
-			if (empty())
-				return NULL;
-
-			return datalist->tail->value;
-		}
-		V back(vector<V>* datalist)
-		{
-			if (empty())
-				return NULL;
-
-			return datalist->back();
-		}
 		V back(V* datalist)
 		{
 			if (empty())
 				return NULL;
 
 			return *(datalist + dataCount - 1);
-		}
-
-		int size(LinkedList<V>* datalist)
-		{
-			return datalist->size();
-		}
-		int size(vector<V>* datalist)
-		{
-			return datalist->size();
 		}
 		int size(V* datalist)
 		{
