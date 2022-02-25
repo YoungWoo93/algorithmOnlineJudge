@@ -348,9 +348,9 @@ namespace dataStructures
 			return true;
 		}
 
-		bool erase(V value, bool (*compare)(V))
+		bool erase(V value)
 		{
-			int index = this->find(value, compare);
+			int index = this->find(value);
 			if (index == -1)
 				return false;
 
