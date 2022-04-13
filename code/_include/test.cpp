@@ -1,13 +1,13 @@
 #include <problem.h>
 #include <test.h>
-#include "../data structure/test.h"
+#include "../data structure/LinkedList.h"
+#include "../data structure/Stack.h"
+#include "../data structure/Queue.h"
+#include "../data structure/Dequeue.h"
 
 #ifdef _test_
 
 #include <iostream>
-
-
-using namespace dataStructures;
 
 template <typename T>
 T getRandData(T start, T end) {
@@ -20,69 +20,53 @@ T getRandData(T start, T end) {
 
 }
 
-void testMain()
+
+using namespace dataStructures;
+
+
+template <typename T>
+void print(vector<T> list)
 {
-    std::cout << "test main called" << std::endl;
+    for (int i = 0; i < list.size(); i++)
+    {
+        cout << list[i] << " ";
+    }
+    cout << endl;
 }
 
+template <typename T>
+void print(LinkedList<T> &list)
+{
+    for (int i = 0; i < list.size(); i++)
+    {
+        cout << list[i].value << " ";
+    }
+    cout << endl;
+}
 
+#include <list>
+#include "../data structure/Graph.h"
+#include "../data structure/Tree.h"
 int main()
 {
-    while (true) {
-        vector<int> testList1 = { 1, 2, 3 };
-        vector<int> testList2 = { 4, 5, 6 };
+    while (true)
+    {
+        Tree<int> test; 
 
+        test.add(5);
+        test.add(2);
+        test.add(3);
+        test.add(7);
+        test.add(1);
+        test.add(6);
+        test.add(9);
 
-        LinkedList<int> testDefault;
-        LinkedList<int> testSingle(singly);
-        LinkedList<int> testDouble(doubly);
+        treeNode<int>* temp = (treeNode<int>*)test.root->next[1];
 
-        testDefault.name = "testDefault";
-        testSingle.name = "testSingle";
-        testDouble.name = "testDouble";
-
-        cout << testDefault.size() << endl;
-        cout << testSingle.size() << endl;
-        cout << testDouble.size() << endl;
-
-        testDefault.add(testList1);
-        testSingle.add(testList2);
-        testDouble.add(testList1);
-
-        cout << testDefault.size() << endl;
-        cout << testSingle.size() << endl;
-        cout << testDouble.size() << endl;
-
-        testDefault.add(testSingle);
-        testDouble.add(testList2);
-        testSingle.add(testList1);
-
-        cout << testDefault.size() << endl;
-        cout << testSingle.size() << endl;
-        cout << testDouble.size() << endl;
-
-        testDefault.add(testDouble);
-
-        cout << testDefault.at(0) << endl;
-        cout << testDefault.at(1) << endl;
-        cout << testDefault.at(100) << endl;
-
-        LinkedList<int> test;
-        testDefault.clone(test);//
-
-        test.insert(testDefault, 1);
-        test.erase(3);
-        cout << test.size() << endl;
-        test.erase(3, 5);
-
-        for (auto item : test.getArray())
-        {
-            cout << item << " ";
-        }
-        cout << endl;
+        test.erase(temp);
+      
+       
     }
-    
-
     return 0;
 }
 #endif

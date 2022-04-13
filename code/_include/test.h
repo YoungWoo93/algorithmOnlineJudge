@@ -6,6 +6,5 @@
 
 template <typename T>
 T getRandData(T start, T end);
-void testMain();
 
 #endif

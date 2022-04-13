@@ -52,6 +52,9 @@ vector<int> preprocessing(string pattern)
 		ret[i] = cur;
 	}
 
+	//
+	//	포인트는 cur가 같이 따라가다가 틀린 문자가 나왔을때, ret 배열의 cur 값 -1 번 인덱스는 틀린문자 직전에서 다시 시작할 수 있는 최대거리 라는점이다
+	//
 	return ret;
 }
 
