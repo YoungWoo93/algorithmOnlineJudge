@@ -1,72 +1,35 @@
 #include <problem.h>
 #include <test.h>
-#include "../data structure/LinkedList.h"
-#include "../data structure/Stack.h"
-#include "../data structure/Queue.h"
-#include "../data structure/Dequeue.h"
 
 #ifdef _test_
 
-#include <iostream>
+#include <cstdio>
+#include <algorithm>
+using namespace std;
 
-template <typename T>
-T getRandData(T start, T end) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<T> dis(start, end);
+int d, n, m, a[50005];
 
+int main() {
+	scanf_s("%d %d %d", &d, &n, &m);
+	for (int i = 1; i <= n; i++) scanf_s("%d", &a[i]);
+	a[n + 1] = d;
 
-    return dis(gen);
+	sort(a + 1, a + n + 1);
 
-}
+	int lft = 0, rgt = d, ans;
+	while (lft <= rgt) {
+		int mid = (lft + rgt) / 2;
+		int pos = 0, cnt = 0;
+		for (int i = 1; i <= n + 1; i++) {
+			if (a[i] - a[pos] < mid) cnt++;
+			else pos = i;
+		}
+		if (cnt > m) rgt = mid - 1;
+		else lft = mid + 1, ans = mid;
+	}
 
+	printf("%d", ans);
 
-using namespace dataStructures;
-
-
-template <typename T>
-void print(vector<T> list)
-{
-    for (int i = 0; i < list.size(); i++)
-    {
-        cout << list[i] << " ";
-    }
-    cout << endl;
-}
-
-template <typename T>
-void print(LinkedList<T> &list)
-{
-    for (int i = 0; i < list.size(); i++)
-    {
-        cout << list[i].value << " ";
-    }
-    cout << endl;
-}
-
-#include <list>
-#include "../data structure/Graph.h"
-#include "../data structure/Tree.h"
-int main()
-{
-    while (true)
-    {
-        Tree<int> test; 
-
-        test.add(5);
-        test.add(2);
-        test.add(3);
-        test.add(7);
-        test.add(1);
-        test.add(6);
-        test.add(9);
-
-        treeNode<int>* temp = (treeNode<int>*)test.root->next[1];
-
-        test.erase(temp);
-      
-       
-    }
-    return 0;
+	return 0;
 }
 #endif
