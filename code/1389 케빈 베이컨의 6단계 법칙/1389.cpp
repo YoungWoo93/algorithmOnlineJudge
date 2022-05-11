@@ -8,7 +8,7 @@
 /// https://www.acmicpc.net/problem/1389
 /// 
 /// solution
-/// 
+/// https://dev-game-standalone.tistory.com/entry/BOJ-1389%EB%B2%88-%EC%BC%80%EB%B9%88-%EB%B2%A0%EC%9D%B4%EC%BB%A8%EC%9D%98-6%EB%8B%A8%EA%B3%84-%EB%B2%95%EC%B9%99
 /// 
 #include <iostream>
 #include <vector>
@@ -98,7 +98,7 @@ void BFS(node* node, int nodeCount)
 	for (int i = 0; i < travel.size(); i++)
 	{
 		(node + travel[i])->KB += (node + travel[i])->temp;
-		//cout << node->value << "¹ø(" << node->KB <<") <-> " << (node + travel[i])->value << "¹ø(" << (node + travel[i])->KB  << ") " << (node + travel[i])->temp << endl;
+		//cout << node->value << "Â¹Ã¸(" << node->KB <<") <-> " << (node + travel[i])->value << "Â¹Ã¸(" << (node + travel[i])->KB  << ") " << (node + travel[i])->temp << endl;
 	}
 
 	//cout << endl << endl;
