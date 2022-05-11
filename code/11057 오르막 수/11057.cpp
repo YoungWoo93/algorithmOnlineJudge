@@ -9,35 +9,28 @@
 /// solution
 /// 
 /// 
+
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
 
 using namespace std;
-
-int process(int input)
+vector<vector<int>> getDPs(int count)
 {
-	vector<vector<int>> list(input, vector<int>(11, 0));
-	list[0].assign(11, 1);
-	list[0][10] = 10;
+	vector<vector<int>> ret(count + 1, vector<int>(10, 1));
 
-	for (int i = 1; i < input; i++)
+	for (int i = 1; i < count + 1; i++)
 	{
-		int sum = list[i - 1][10];
-		list[i][0] = list[i - 1][10];
-
-		for (int j = 1; j < 10; j++)
+		for (int index = 8; index >= 0; index--)
 		{
-			list[i][j] = (list[i][j - 1] - list[i - 1][j - 1]) % 10007;
-
-			if (list[i][j] < 0)
-				list[i][j] += 10007;
-			sum += list[i][j];
+			ret[i][index] = (ret[i - 1][index] + ret[i][index + 1]) % 10007;
 		}
-		list[i][10] = sum % 10007;
 	}
 
-	return list[input - 1][10];
+
+	return ret;
+
 }
 
 
@@ -46,8 +39,9 @@ int main()
 {
 	int digit;
 	cin >> digit;
+	auto DPs = getDPs(digit);
 
-	cout << process(digit) % 10007 << endl;
+	cout << DPs.back()[0] << endl;
 
 	return 0;
 }
