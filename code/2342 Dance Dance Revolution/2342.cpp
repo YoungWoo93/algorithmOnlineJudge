@@ -41,9 +41,6 @@ int move(int before, int after)
 	if (before == 0)
 		return 2;
 
-	if (before == after)
-		return 1;
-
 	if (abs(before - after) == 2)
 		return 4;
 
@@ -57,77 +54,69 @@ void putValue(int* target, int value)
 		*target = min(*target, value);
 }
 
-void printBoard(vector<vector<int>>* boardPtr, string comment)
+void runCommand(int command, vector<vector<int>>* currentBoard, vector<vector<int>>* nextBoard)
 {
-	cout << endl << "=================" << endl;
-	if (comment != "")
-		cout << comment << endl;
-
-	for (int i = 0; i < 5; i++)
+	for (int left = 0; left < (*currentBoard).size(); left++)
 	{
-		for (int j = 0; j < 5; j++)
+		for (int right = 0; right < (*currentBoard)[0].size(); right++)
 		{
-			cout << (*boardPtr)[i][j] << "\t";
+			if ((*currentBoard)[left][right] != -1)
+			{
+				if (left == command || right == command)
+					putValue(&(*nextBoard)[left][right], (*currentBoard)[left][right] + 1);
+				else
+				{
+					putValue(&(*nextBoard)[command][right], (*currentBoard)[left][right] + move(left, command));
+					putValue(&(*nextBoard)[left][command], (*currentBoard)[left][right] + move(right, command));
+				}
+				(*currentBoard)[left][right] = -1;
+
+			}
 		}
-		cout << endl;
 	}
 }
 
-int simulation(vector<int> cmd)
+vector<vector<int>> simulation(vector<int> cmd)
 {
 	vector<vector<int>> board1(5, vector<int>(5, -1));
 	vector<vector<int>> board2(5, vector<int>(5, -1));
 
-	vector<vector<int>>* boardPtr = &board1;
-	vector<vector<int>>* tempBoardPtr = &board2;
+	vector<vector<int>>* currentBoardPtr = &board1;
+	vector<vector<int>>* nextBoardPtr = &board2;
 
 	board1[0][0] = 0;
 
 	for (int i = 0; i < cmd.size(); i++)
 	{
-		for (int left = 0; left < 5; left++)
-		{
-			for (int right = 0; right < 5; right++)
-			{
-				if ((*boardPtr)[left][right] != -1)
-				{
-					if (left == cmd[i] || right == cmd[i])
-						putValue(&(*tempBoardPtr)[left][right],(*boardPtr)[left][right] + 1);
-					else
-					{
-						putValue(&(*tempBoardPtr)[cmd[i]][right], (*boardPtr)[left][right] + move(left, cmd[i]));
-						putValue(&(*tempBoardPtr)[left][cmd[i]], (*boardPtr)[left][right] + move(right, cmd[i]));
-					}
-					(*boardPtr)[left][right] = -1;
+		runCommand(cmd[i], currentBoardPtr, nextBoardPtr);
 
-				}
-			}
-		}
-
-		auto temp = boardPtr;
-		boardPtr = tempBoardPtr;
-		tempBoardPtr = temp;
+		auto temp = currentBoardPtr;
+		currentBoardPtr = nextBoardPtr;
+		nextBoardPtr = temp;
 	}
 
-	int answer = INT_MAX;
-	for (int i = 0; i < 5; i++)
-	{
-		for (int j = 0; j < 5; j++)
-		{
-			if ((*boardPtr)[i][j] != -1)
-				answer = min(answer, (*boardPtr)[i][j]);
-		}
-	}
+	
 
-	return answer;
+	return *currentBoardPtr;
 }
 
 int main()
 {
 	auto command = input();
-	int answer = simulation(command);
+	vector<vector<int>> result = simulation(command);
+
+	int answer = INT_MAX;
+	for (int i = 0; i < result.size(); i++)
+	{
+		for (int j = 0; j < result[0].size(); j++)
+		{
+			if (result[i][j] != -1)
+				answer = min(answer, result[i][j]);
+		}
+	}
 
 	cout << answer << endl;
+
 	return 0;
 }
 #endif
