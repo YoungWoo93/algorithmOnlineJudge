@@ -15,13 +15,13 @@
 
 using namespace std;
 
-void input(vector<pair<int, vector<int>>>& employeeTable, vector<pair<int, vector<int>>>& taskTable)
+void input(vector<pair<int, vector<int>>>& employeeTable, vector<int>& taskTable)
 {
 	int employees, tasks;
 	cin >> employees >> tasks;
 
 	employeeTable.assign(employees, { 0, vector<int>() });
-	taskTable.assign(tasks + 1, { -1, vector<int>() });
+	taskTable.assign(tasks, -1);
 
 	for (int i = 0; i < employees; i++)
 	{
@@ -31,33 +31,32 @@ void input(vector<pair<int, vector<int>>>& employeeTable, vector<pair<int, vecto
 			int task;
 			cin >> task;
 
-			employeeTable[i].second.push_back(task);
-			taskTable[task - 1].second.push_back(i);
+			employeeTable[i].second.push_back(task - 1);
 		}
 	}
 }
 
-bool change(vector<pair<int, vector<int>>>& employeeTable, vector<pair<int, vector<int>>>& taskTable, int taskNo, vector<bool> &memo)
+bool change(vector<pair<int, vector<int>>>& employeeTable, vector<int>& taskTable, int taskNo, vector<bool> &visit)
 {
-	int employeeNo = taskTable[taskNo].first;
-	if (taskTable[taskNo].first == -1)
+	int employeeNo = taskTable[taskNo];
+	if (taskTable[taskNo] == -1)
 	{
-		taskTable[taskNo].first = employeeNo;
+		taskTable[taskNo] = employeeNo;
 		return true;
 	}
 
-	if (!memo[employeeNo])
+	if (visit[employeeNo])
 		return false;
 
-	memo[employeeNo] = false;
+	visit[employeeNo] = true;
 	
 	for (int i = 0; i < employeeTable[employeeNo].second.size(); i++)
 	{
 		int _taskNo = employeeTable[employeeNo].second[i];
 
-		if (taskTable[_taskNo].first == -1 || change(employeeTable, taskTable, _taskNo, memo))
+		if (taskTable[_taskNo] == -1 || change(employeeTable, taskTable, _taskNo, visit))
 		{
-			taskTable[_taskNo].first = employeeNo;
+			taskTable[_taskNo] = employeeNo;
 			return true;
 		}
 	}
@@ -65,23 +64,26 @@ bool change(vector<pair<int, vector<int>>>& employeeTable, vector<pair<int, vect
 	return false;
 }
 
-int process(vector<pair<int, vector<int>>>& employeeTable, vector<pair<int, vector<int>>>& taskTable)
+int process(vector<pair<int, vector<int>>>& employeeTable, vector<int>& taskTable)
 {
 	int ret = 0;
-	vector<bool> memo(employeeTable.size(), true);
+	vector<bool> visit(employeeTable.size(), false);
 
 	for (int i = 0; i < employeeTable.size(); i++)
 	{
 		if (employeeTable[i].second.empty())
 			continue;
 
-		int taskNo = employeeTable[i].second[0];
-		if (change(employeeTable, taskTable, taskNo, memo))
+		for (int taskNo : employeeTable[i].second)
 		{
-			ret++;
-			taskTable[taskNo].first = i;
+			if (change(employeeTable, taskTable, taskNo, visit))
+			{
+				ret++;
+				taskTable[taskNo] = i;
+				break;
+			}
 		}
-		memo.assign(employeeTable.size(), true);
+		visit.assign(employeeTable.size(), false);
 	}
 
 	return ret;
@@ -90,11 +92,9 @@ int process(vector<pair<int, vector<int>>>& employeeTable, vector<pair<int, vect
 int main()
 {
 	vector<pair<int, vector<int>>> employeeTable;
-	vector<pair<int, vector<int>>> taskTable;
+	vector<int> taskTable;
 
 	input(employeeTable, taskTable);
-	sort(employeeTable.begin(), employeeTable.end(), greater<>());
-
 
 	cout << process(employeeTable, taskTable) << endl;
 
