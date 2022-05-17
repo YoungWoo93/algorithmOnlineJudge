@@ -7,7 +7,7 @@
 /// https://www.acmicpc.net/problem/15711
 /// 
 /// solution
-/// 
+/// https://dev-game-standalone.tistory.com/entry/BOJ-15711%EB%B2%88-%ED%99%98%EC%83%81%EC%9D%98-%EC%A7%9D%EA%BF%8D
 /// 
 
 #include <iostream>
@@ -47,6 +47,8 @@ vector<unsigned long long int> getPrimeNums()
 
 bool isPrime(unsigned long long int value, vector<unsigned long long int>& table)
 {
+	if (value < 2)
+		return false;
 
 	for (int i = 0; i < table.size(); i++)
 	{
@@ -84,24 +86,23 @@ int main()
 		cin >> a >> b;
 
 		unsigned long long int length = a + b;
-
-		if (length >= 4)
+		if (length % 2 == 0)
 		{
-			if (length % 2 == 0)
+			if (length >= 4)
 				cout << "YES" << endl;
-	
 			else
-			{
-				if (isPrime(length - 2, primeTable))
-					cout << "YES" << endl;
-				else
-					cout << "NO" << endl;
-			}
+				cout << "NO" << endl;
 		}
 		else
-			cout << "NO" << endl;
+		{
+			if (isPrime(length - 2, primeTable))
+				cout << "YES" << endl;
+			else
+				cout << "NO" << endl;
+		}
 	}
 }
+
 
 
 #endif
