@@ -7,7 +7,7 @@
 /// https://www.acmicpc.net/problem/7579
 /// 
 /// solution
-/// 
+/// https://dev-game-standalone.tistory.com/entry/BOJ-7579%EB%B2%88-%EC%95%B1
 /// 
 
 #include <iostream>
@@ -71,9 +71,6 @@ int main()
 			cout << i << endl;
 			break;
 		}
-
-		if (DPtable[i] > DPtable[i + 1])
-			DPtable[i + 1] = DPtable[i];
 	}
 	
 }
