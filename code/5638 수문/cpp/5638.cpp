@@ -17,7 +17,7 @@
 #include <algorithm>
 
 using namespace std;
-
+  
 struct gate {
 	int flux;
 	int cost;
