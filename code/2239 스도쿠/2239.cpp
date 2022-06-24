@@ -60,20 +60,6 @@ bool checkGrid(int x, int y, int value, vector<vector<int>>& map)
 }
 
 
-//void input(vector<vector<vector<int>>>& map)
-//{
-//	string str;
-//	map.assign(9, vector<vector<int>>(9, vector<int>()));
-//
-//	for (int i = 0; i < 9; i++)
-//	{
-//		cin >> str;
-//	
-//		for (int j = 0; j < 9; j++)
-//			map[i][j].push_back(str[j] - '0');
-//	}
-//}
-
 void input(vector<vector<int>>& map)
 {
 	string str;
@@ -90,26 +76,6 @@ void input(vector<vector<int>>& map)
 	}
 }
 
-void preprocess(vector<vector<vector<int>>>& map)
-{
-	for (int i = 0; i < 9; i++)
-	{
-		for (int j = 0; j < 9; j++)
-		{
-			if (map[i][j][0] == 0)
-			{
-				vector<int> temp = { 1,2,3,4,5,6,7,8,9 };
-
-
-			}
-		}
-	}
-}
-
-//bool travel(int x, int y, vector<vector<vector<int>>>& map)
-//{
-//
-//}
 
 bool findZero(int& x, int& y, vector<vector<int>>& map)
 {
@@ -129,7 +95,7 @@ bool findZero(int& x, int& y, vector<vector<int>>& map)
 	return false;
 }
 
-bool travel(int x, int y, vector<vector<int>>& map)
+bool DFS(int x, int y, vector<vector<int>>& map)
 {
 	for (int i = 1; i <= 9; i++)
 	{
@@ -143,7 +109,7 @@ bool travel(int x, int y, vector<vector<int>>& map)
 			if (!findZero(startX, startY, map))
 				return true;
 
-			if (travel(startX, startY, map))
+			if (DFS(startX, startY, map))
 				return true;
 
 			map[y][x] = 0;
@@ -153,19 +119,8 @@ bool travel(int x, int y, vector<vector<int>>& map)
 	return false;
 }
 
-void printMap(vector<vector<int>>& map)
-{
-	for (int i = 0; i < 9; i++)
-	{
-		for (int j = 0; j < 9; j++)
-			cout << map[i][j];
-		cout << endl;
-	}
-}
-
 int main()
 {
-	//vector<vector<vector<int>>> map;
 	vector<vector<int>> map;
 	input(map);
 
@@ -173,8 +128,14 @@ int main()
 	int startY = 0;
 
 	findZero(startX, startY, map);
-	travel(startX, startY, map);
-	printMap(map);
+	DFS(startX, startY, map);
+	
+	for (int i = 0; i < 9; i++)
+	{
+		for (int j = 0; j < 9; j++)
+			cout << map[i][j];
+		cout << endl;
+	}
 }
 #endif
 
