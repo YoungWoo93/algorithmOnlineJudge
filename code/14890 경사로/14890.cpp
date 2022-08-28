@@ -40,6 +40,7 @@ int travel(vector<vector<int>>& map, int length)
 	
 	for (int i = 0; i < map.size(); i++)
 	{
+		bool success = true;
 		int flatCount = 0;
 		for (int j = 0; j < map[i].size() - 1; j++)
 		{
@@ -49,7 +50,7 @@ int travel(vector<vector<int>>& map, int length)
 			{
 				if (flatCount < length || abs(map[i][j] - map[i][j + 1]) > 1)
 				{
-					flatCount = -2;
+					success = false;
 					break;
 				}
 
@@ -59,20 +60,22 @@ int travel(vector<vector<int>>& map, int length)
 			{
 				if (flatCount < 0 || abs(map[i][j] - map[i][j + 1]) > 1)
 				{
-					flatCount = -2;
+					success = false;
 					break;
 				}
+
 				flatCount = -length;
 			}
 		}
 		flatCount++;
 
-		if (flatCount >= 0)
+		if (success && flatCount >= 0)
 			ret++;
 	}
 
 	for (int i = 0; i < map.size(); i++)
 	{
+		bool success = true;
 		int flatCount = 0;
 		for (int j = 0; j < map[i].size() - 1; j++)
 		{
@@ -82,7 +85,7 @@ int travel(vector<vector<int>>& map, int length)
 			{
 				if (flatCount < length || abs(map[j][i] - map[j + 1][i]) > 1)
 				{
-					flatCount = -2;
+					success = false;
 					break;
 				}
 
@@ -92,7 +95,7 @@ int travel(vector<vector<int>>& map, int length)
 			{
 				if (flatCount < 0 || abs(map[j][i] - map[j + 1][i]) > 1)
 				{
-					flatCount = -2;
+					success = false;
 					break;
 				}
 				flatCount = -length;
@@ -100,7 +103,7 @@ int travel(vector<vector<int>>& map, int length)
 		}
 		flatCount++;
 
-		if (flatCount >= 0)
+		if (success && flatCount >= 0)
 			ret++;
 	}
 
